@@ -1,0 +1,6 @@
+---
+# Default variables - inventory or playbook overrides will be respected
+
+# BARC specific variables
+postgresql9_server_barc_role_name: postgresql9_server
+postgresql9_server_barc_role_version: 0.1.0
