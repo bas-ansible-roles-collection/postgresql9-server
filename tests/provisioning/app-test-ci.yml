@@ -5,6 +5,15 @@
   hosts: localhost
   remote_user: "{{ privileged_remote_user }}"
   become: yes
+  pre_tasks:
+    - name: install prerequisites for testing in continuous integration environment
+      apt:
+                     pkg={{ item }}
+            update_cache=yes
+        cache_valid_time=3600
+                   state=present
+      with_items:
+        - ufw
   roles:
     - ../../../postgresql9-server
   tasks:
