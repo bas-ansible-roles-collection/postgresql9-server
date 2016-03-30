@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- {{ ansible_managed }} -->
+
+<service>
+  <short>Database Server (PostgreSQL)</short>
+  <description>Powerful, open source object-relational database system</description>
+  <port protocol="tcp" port="{{ postgresql9_server_firewall_port }}"/>
+</service>

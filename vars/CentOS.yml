@@ -1,0 +1,8 @@
+---
+# Role variables - inventory or playbook overrides will not be respected - use extra-vars to override
+
+# PostgreSQL specific variables
+postgresql9_server_system_only_postgres_version: 9.2
+
+postgresql9_server_configuration_base: /var/lib/pgsql
+postgresql9_server_configuration_directory: data

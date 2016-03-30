@@ -1,0 +1,18 @@
+---
+# Tests PostgreSQL databases can be created
+
+# Note: These functionality tests are cumulative - the database test relies on database users being created etc.
+
+- name: create database for vagrant operating system user
+  postgresql_db:
+     name="vagrant"
+    owner="vagrant"
+    state=present
+  become_user: postgres
+
+- name: create database for an application
+  postgresql_db:
+     name="app"
+    owner="app"
+    state=present
+  become_user: postgres

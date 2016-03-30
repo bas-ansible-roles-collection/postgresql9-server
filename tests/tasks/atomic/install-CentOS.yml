@@ -1,0 +1,49 @@
+---
+# Ensure PostgreSQL server and related packages are installed correctly
+
+- name: determine if postgresql server and related packages are installed - CentOS
+  command: rpm -qa
+  changed_when: False
+  register: postgresql9_server_test_fact_postgresql_package_is_installed_centos
+
+# If using non-system sources (preferred)
+
+- name: assert postgresql server and related packages are installed from non-system sources - CentOS
+  assert:
+    that:
+      - "'postgresql95-server' in postgresql9_server_test_fact_postgresql_package_is_installed_centos.stdout"
+      - "'postgresql95-contrib' in postgresql9_server_test_fact_postgresql_package_is_installed_centos.stdout"
+      - "'python-psycopg2' in postgresql9_server_test_fact_postgresql_package_is_installed_centos.stdout"
+  when: BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True'
+
+- name: determine if postgresql server is available using non-system sources - CentOS
+  command: systemctl status postgresql-9.5.service
+  changed_when: False
+  when: BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True'
+  register: postgresql9_client_fact_postgres_is_available_non_system_centos
+- name: assert postgresql is available using non-system sources - CentOS
+  assert:
+    that:
+      - "'Active: active (running)' in postgresql9_client_fact_postgres_is_available_non_system_centos.stdout"
+  when: BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True'
+
+# If using system-sources only
+
+- name: assert postgresql server and related packages are installed from system only sources - CentOS
+  assert:
+    that:
+      - "'postgresql-server' in postgresql9_server_test_fact_postgresql_package_is_installed_centos.stdout"
+      - "'postgresql-contrib' in postgresql9_server_test_fact_postgresql_package_is_installed_centos.stdout"
+      - "'python-psycopg2' in postgresql9_server_test_fact_postgresql_package_is_installed_centos.stdout"
+  when: BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False'
+
+- name: determine if postgresql server is available using system only sources - CentOS
+  command: systemctl status postgresql.service
+  changed_when: False
+  when: BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False'
+  register: postgresql9_client_fact_postgres_is_available_system_only_centos
+- name: assert postgresql is available using system only sources - CentOS
+  assert:
+    that:
+      - "'Active: active (running)' in postgresql9_client_fact_postgres_is_available_system_only_centos.stdout"
+  when: BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False'

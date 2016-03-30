@@ -1,0 +1,49 @@
+---
+# Ensure PostgreSQL server and related packages are installed correctly
+
+# If using non-system sources (preferred)
+
+- name: determine if postgresql server and related packages are installed from non-system sources - Ubuntu
+  command: dpkg -s {{ item }}
+  with_items:
+    - postgresql-9.5
+    - postgresql-contrib-9.5
+    - python-psycopg2
+  changed_when: False
+  when: BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True'
+  register: postgresql9_server_test_fact_postgresql_package_is_installed_non_system_ubuntu
+- name: assert postgresql server and related packages are installed from non-system sources - Ubuntu
+  assert:
+    that:
+      - "'install ok installed' in item.stdout"
+  with_items: postgresql9_server_test_fact_postgresql_package_is_installed_non_system_ubuntu.results
+  when: BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True'
+
+# If using system-sources only
+
+- name: determine if postgresql server and related packages are installed from system-only sources - Ubuntu
+  command: dpkg -s {{ item }}
+  with_items:
+  - postgresql
+  - postgresql-contrib
+  - python-psycopg2
+  changed_when: False
+  when: BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'false'
+  register: postgresql9_server_test_fact_postgresql_package_is_installed_system_only_ubuntu
+- name: assert postgresql server and related packages are installed from system-only sources - Ubuntu
+  assert:
+    that:
+      - "'install ok installed' in item.stdout"
+  with_items: postgresql9_server_test_fact_postgresql_package_is_installed_system_only_ubuntu.results
+  when: BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'false'
+
+# Applies to both non-system and system-only
+
+- name: determine if postgresql server is available - Ubuntu
+  command: service postgresql status
+  changed_when: False
+  register: postgresql9_client_fact_postgres_is_available_ubuntu
+- name: assert postgresql is available - Ubuntu
+  assert:
+    that:
+      - "'online' in postgresql9_client_fact_postgres_is_available_ubuntu.stdout"

@@ -44,6 +44,22 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     # Base box
     node.vm.box = "antarctica/centos7"
     node.vm.box_version = "~> 0.7"
+  end
+
+  config.vm.define "postgresql9-server-test-ubuntu-system-only" do |node|
+    node.vm.hostname = "postgresql9-server-test-ubuntu-system-only.v.m"
+
+    # Base box
+    node.vm.box = "antarctica/trusty"
+    node.vm.box_version = "~> 3.3"
+  end
+
+  config.vm.define "postgresql9-server-test-centos-system-only" do |node|
+    node.vm.hostname = "postgresql9-server-test-centos-system-only.v.m"
+
+    # Base box
+    node.vm.box = "antarctica/centos7"
+    node.vm.box_version = "~> 0.7"
 
     # Provision all virtual machines using Ansible to get to a common 'foundation'
       # We also download all roles required fro this project using Ansible Galaxy
