@@ -1,0 +1,42 @@
+---
+# Configure PostgreSQL main configuration file
+
+- name: set listening address in postgresql configuration file using non-system sources - CentOS
+  lineinfile:
+      dest='{{ postgresql9_server_configuration_base }}/{{ postgresql9_server_non_system_postgres_version }}/{{ postgresql9_server_configuration_directory }}/postgresql.conf'
+    regexp='^#?listen_addresses\s*='
+      line="listen_addresses = '{{ postgresql9_server_listen_address }}'"
+     state=present
+  notify: Restart PostgreSQL - CentOS - Non-System
+  when: ansible_distribution == "CentOS" and
+    (BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True')
+
+- name: set listening address in postgresql configuration file using non-system sources - Ubuntu
+  lineinfile:
+      dest='{{ postgresql9_server_configuration_base }}/{{ postgresql9_server_non_system_postgres_version }}/{{ postgresql9_server_configuration_directory }}/postgresql.conf'
+    regexp='^#?listen_addresses\s*='
+      line="listen_addresses = '{{ postgresql9_server_listen_address }}'"
+     state=present
+  notify: Restart PostgreSQL
+  when: ansible_distribution == "Ubuntu" and
+    (BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True')
+
+- name: set listening address in postgresql configuration file using system only sources - CentOS
+  lineinfile:
+      dest='{{ postgresql9_server_configuration_base }}/{{ postgresql9_server_configuration_directory }}/postgresql.conf'
+    regexp='^#?listen_addresses\s*='
+      line="listen_addresses = '{{ postgresql9_server_listen_address }}'"
+     state=present
+  notify: Restart PostgreSQL
+  when: ansible_distribution == "CentOS" and
+    (BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False')
+
+- name: set listening address in postgresql configuration file using system only sources - Ubuntu
+  lineinfile:
+      dest='{{ postgresql9_server_configuration_base }}/{{ postgresql9_server_system_only_postgres_version }}/{{ postgresql9_server_configuration_directory }}/postgresql.conf'
+    regexp='^#?listen_addresses\s*='
+      line="listen_addresses = '{{ postgresql9_server_listen_address }}'"
+     state=present
+  notify: Restart PostgreSQL
+  when: ansible_distribution == "Ubuntu" and
+    (BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False')

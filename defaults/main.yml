@@ -4,3 +4,12 @@
 # BARC specific variables
 postgresql9_server_barc_role_name: postgresql9_server
 postgresql9_server_barc_role_version: 0.1.0
+
+BARC_use_non_system_package_sources: true
+
+# PostgreSQL specific variables
+postgresql9_server_non_system_postgres_version: 9.5
+
+postgresql9_server_firewall_port: 5432
+
+postgresql9_server_listen_address: "{{ ansible_lo.ipv4.address }}"

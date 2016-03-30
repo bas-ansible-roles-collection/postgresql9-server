@@ -1,0 +1,34 @@
+---
+# Configure PostgreSQL client authentication
+
+- name: generate postgresql client authentication configuration file using non-system sources - CentOS
+  template:
+     src=POSTGRESQL-CONF/pg_hba.conf.j2
+    dest='{{ postgresql9_server_configuration_base }}/{{ postgresql9_server_non_system_postgres_version }}/{{ postgresql9_server_configuration_directory }}/pg_hba.conf'
+  notify: Restart PostgreSQL - CentOS - Non-System
+  when: ansible_distribution == "CentOS" and
+    (BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True')
+
+- name: generate postgresql client authentication configuration file using non-system sources - Ubuntu
+  template:
+     src=POSTGRESQL-CONF/pg_hba.conf.j2
+    dest='{{ postgresql9_server_configuration_base }}/{{ postgresql9_server_non_system_postgres_version }}/{{ postgresql9_server_configuration_directory }}/pg_hba.conf'
+  notify: Restart PostgreSQL
+  when: ansible_distribution == "Ubuntu" and
+    (BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True')
+
+- name: generate postgresql client authentication configuration file using system only sources - CentOS
+  template:
+     src=POSTGRESQL-CONF/pg_hba.conf.j2
+    dest='{{ postgresql9_server_configuration_base }}/{{ postgresql9_server_configuration_directory }}/pg_hba.conf'
+  notify: Restart PostgreSQL
+  when: ansible_distribution == "CentOS" and
+    (BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False')
+
+- name: generate postgresql client authentication configuration file using system only sources - Ubuntu
+  template:
+     src=POSTGRESQL-CONF/pg_hba.conf.j2
+    dest='{{ postgresql9_server_configuration_base }}/{{ postgresql9_server_system_only_postgres_version }}/{{ postgresql9_server_configuration_directory }}/pg_hba.conf'
+  notify: Restart PostgreSQL
+  when: ansible_distribution == "Ubuntu" and
+    (BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False')

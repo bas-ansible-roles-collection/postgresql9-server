@@ -17,11 +17,20 @@ multiple environments.
 
 The *Testing* environment tests a single scenario:
 
-* Installs PostgreSQL server and contrib packages, and generates main configuration file
+* Installs PostgreSQL server and contrib packages, from non-system sources
+* Configures the system firewall
+* Configures PostgreSQL main and client authentication configuration files
 
 The *Local Testing* environment tests multiple scenarios:
 
-1. ...
+1. *Basic*
+  * Installs PostgreSQL server and contrib packages, from non-system sources
+  * Configures the system firewall
+  * Configures PostgreSQL main and client authentication configuration files
+2. *System Only*
+  * Installs PostgreSQL server and contrib packages, from system only sources
+  * Configures the system firewall
+  * Configures PostgreSQL main and client authentication configuration files
 
 **Note:** *Local Testing* environments test scenarios on all operating systems this role supports. Services providing
 *Testing* environments may limit which operating system are available (e.g. SemaphoreCI only supports Ubuntu Trusty).

@@ -1,0 +1,19 @@
+---
+# Tests a privileged and non-privileged PostgreSQL role (user) can be created
+
+# Note: These functionality tests are cumulative - the database test relies on database users being created etc.
+
+- name: create a privileged postgresql role linked to the vagrant operating system user
+  postgresql_user:
+               name="vagrant"
+           password="{{ postgresql9_server_test_testing_vagrant_role_password }}"
+    role_attr_flags=SUPERUSER,CREATEROLE,CREATEDB,REPLICATION
+              state=present
+  become_user: postgres
+
+- name: create a non-privileged postgresql role for an application
+  postgresql_user:
+               name="app"
+           password="{{ postgresql9_server_test_testing_app_role_password }}"
+              state=present
+  become_user: postgres

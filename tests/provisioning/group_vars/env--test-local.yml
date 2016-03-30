@@ -3,3 +3,10 @@
 
 # BAS Systems Inventory variables
 bas_systems_inventory_instance_environment: testing-local
+
+# PostgreSQL specific variables
+postgresql9_server_listen_address: "{{ ansible_default_ipv4.address }}"
+
+# Testing specific variables
+postgresql9_server_test_testing_vagrant_role_password: password
+postgresql9_server_test_testing_app_role_password: password

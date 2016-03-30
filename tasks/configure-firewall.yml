@@ -1,0 +1,35 @@
+---
+# Create a firewall service for postgresql to configure the system firewall
+
+- name: generate firewall service for postgresql - CentOS/firewalld
+  template:
+     src="etc/firewalld/services/postgresql.xml.j2"
+    dest="/etc/firewalld/services/postgresql.xml"
+  when: ansible_distribution == "CentOS"
+  notify: Restart Firewall - CentOS
+
+# Firewalld needs to be reloaded to detect new services
+# A handler in the previous task is used to prevent reloading the firewall where service files have not changed.
+- meta: flush_handlers
+
+- name: configure firewall rules for postgresql service - CentOS/firewalld
+  firewalld:
+      service="postgresql"
+    permanent=True
+        state=enabled
+  when: ansible_distribution == "CentOS"
+  notify: Restart Firewall - CentOS
+
+- name: generate firewall service for postgresql - Ubuntu/UFW
+  template:
+     src=etc/ufw/applications.d/postgresql.j2
+    dest=/etc/ufw/applications.d/postgresql
+  when: ansible_distribution == "Ubuntu"
+
+- name: configure firewall rules for postgresql service - Ubuntu/UFW
+  ufw:
+         name="postgresql-server"
+         rule=allow
+    direction=in
+  when: ansible_distribution == "Ubuntu"
+  notify: Restart Firewall - Ubuntu

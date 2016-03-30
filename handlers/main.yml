@@ -1,0 +1,20 @@
+---
+# Handlers for PostgreSQL
+
+- name: Restart PostgreSQL
+  service:
+    name=postgresql
+    state=restarted
+
+- name: Restart PostgreSQL - CentOS - Non-System
+  service:
+    name=postgresql-9.5
+    state=restarted
+
+- name: Restart Firewall - CentOS
+  service:
+     name=firewalld
+    state=restarted
+
+- name: Restart Firewall - Ubuntu
+  ufw: state=reloaded
