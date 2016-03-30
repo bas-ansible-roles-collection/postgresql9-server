@@ -14,6 +14,8 @@
                    state=present
       with_items:
         - ufw
+    - name: enable UFW
+      ufw: state=enabled
   roles:
     - ../../../postgresql9-server
   tasks:
