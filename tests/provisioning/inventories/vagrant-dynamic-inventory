@@ -255,59 +255,6 @@ function get_host_specific_messages(array $messages, $debug = false)
 }
 
 /**
- * For a set of Vagrant messages, returns those only useful for building an inventory
- *
- * A message is said to be useful or interesting in this context if it contains information about the provider used for
- * a host (e.g. VMware) or if it contains SSH configuration information such as the identity file to connect to a host.
- *
- * Vagrant uses a 'type' field with a set of controlled values allowing the type of message to be checked easily. Some
- * message types use different formats for the remaining 'data' field(s) of a message, which can naturally be inferred
- * from the message type.
- *
- * The types of message this function considers interesting are defined by '$interestingMessageTypes'. For 'metadata'
- * type messages an additional '$interestingMessageMetadataKeys' variable is used for additional filtering.
- *
- * @see get_host_specific_messages() For determining which messages are specific to a host
- * @see get_hosts_from_messages() For gathering any hosts specified in a set of messages
- * @see get_host_details_from_messages() For gathering details about hosts specified in a set of messages
- *
- * @param array $messages A set of messages, ideally known to be specific to a host
- * @param bool $debug If 'true', return information on non-interesting messages, otherwise they are discarded
- * @return array A set of messages which are interesting for building an inventory
- *
- * @example get_interesting_messages($specificMessages);
- */
-function get_interesting_messages(array $messages, $debug = false)
-{
-    $interestingMessages = [];
-    $interestingMessageTypes = [
-        'metadata',
-        'ssh-config'
-    ];
-    $interestingMessageMetadataKeys = [
-        'provider'
-    ];
-
-    foreach ($messages as $index => $message) {
-        // In the Vagrant machine readable format, $message[2] is the type of message
-        if (in_array($message[2], $interestingMessageTypes)) {
-            // In the Vagrant machine readable format, if the message type is 'metadata', $message[3] is a key
-            if ($message[2] == 'metadata' && in_array($message[3], $interestingMessageMetadataKeys)) {
-                $interestingMessages[] = $message;
-            } elseif ($message[2] == 'ssh-config') {
-                $interestingMessages[] = $message;
-            } elseif ($debug) {
-                echo make_debug('Message: ' . $index . ' non-interesting metadata key - ', $item = $message);
-            }
-        } elseif ($debug) {
-            echo make_debug('Message: ' . $index . ' non-interesting message type - ', $item = $message);
-        }
-    }
-
-    return $interestingMessages;
-}
-
-/**
  * For a set of Vagrant messages, returns a list of any of uniquely specified hosts
  *
  * Most vagrant messages are specific to a specific machine (host), for a set of messages this function will return an
@@ -434,6 +381,59 @@ function get_host_provider(array $host, array $message)
  *
  * @example get_host_hostname($host, $message);
  */
+/**
+ * For a set of Vagrant messages, returns those only useful for building an inventory
+ *
+ * A message is said to be useful or interesting in this context if it contains information about the provider used for
+ * a host (e.g. VMware) or if it contains SSH configuration information such as the identity file to connect to a host.
+ *
+ * Vagrant uses a 'type' field with a set of controlled values allowing the type of message to be checked easily. Some
+ * message types use different formats for the remaining 'data' field(s) of a message, which can naturally be inferred
+ * from the message type.
+ *
+ * The types of message this function considers interesting are defined by '$interestingMessageTypes'. For 'metadata'
+ * type messages an additional '$interestingMessageMetadataKeys' variable is used for additional filtering.
+ *
+ * @see get_host_specific_messages() For determining which messages are specific to a host
+ * @see get_hosts_from_messages() For gathering any hosts specified in a set of messages
+ * @see get_host_details_from_messages() For gathering details about hosts specified in a set of messages
+ *
+ * @param array $messages A set of messages, ideally known to be specific to a host
+ * @param bool $debug If 'true', return information on non-interesting messages, otherwise they are discarded
+ * @return array A set of messages which are interesting for building an inventory
+ *
+ * @example get_interesting_messages($specificMessages);
+ */
+function get_interesting_messages(array $messages, $debug = false)
+{
+    $interestingMessages = [];
+    $interestingMessageTypes = [
+        'metadata',
+        'ssh-config'
+    ];
+    $interestingMessageMetadataKeys = [
+        'provider'
+    ];
+
+    foreach ($messages as $index => $message) {
+        // In the Vagrant machine readable format, $message[2] is the type of message
+        if (in_array($message[2], $interestingMessageTypes)) {
+            // In the Vagrant machine readable format, if the message type is 'metadata', $message[3] is a key
+            if ($message[2] == 'metadata' && in_array($message[3], $interestingMessageMetadataKeys)) {
+                $interestingMessages[] = $message;
+            } elseif ($message[2] == 'ssh-config') {
+                $interestingMessages[] = $message;
+            } elseif ($debug) {
+                echo make_debug('Message: ' . $index . ' non-interesting metadata key - ', $item = $message);
+            }
+        } elseif ($debug) {
+            echo make_debug('Message: ' . $index . ' non-interesting message type - ', $item = $message);
+        }
+    }
+
+    return $interestingMessages;
+}
+
 function get_host_hostname(array $host, array $message)
 {
     if ($message[2] != 'ssh-config') {

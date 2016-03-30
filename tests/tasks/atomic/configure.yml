@@ -1,0 +1,36 @@
+---
+# Ensure the PostgreSQL main configuration file has been configured correctly
+
+- name: get contents of main configuration file using non-system sources
+  command: "cat {{ postgresql9_server_configuration_base }}/{{ postgresql9_server_non_system_postgres_version }}/{{ postgresql9_server_configuration_directory }}/postgresql.conf"
+  changed_when: false
+  when: BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True'
+  register: postgresql9_server_test_fact_postgresql_main_file_contents_non_system
+- name: assert correct configuration in postgresql main configuration file using non-system sources
+  assert:
+    that: "\"listen_addresses = '{{ postgresql9_server_listen_address }}'\" in postgresql9_server_test_fact_postgresql_main_file_contents_non_system.stdout"
+  when: BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True'
+
+- name: get contents of main configuration file using system only sources - CentOS
+  command: "cat {{ postgresql9_server_configuration_base }}/{{ postgresql9_server_configuration_directory }}/postgresql.conf"
+  changed_when: false
+  when: ansible_distribution == "CentOS" and
+    (BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False')
+  register: postgresql9_server_test_fact_postgresql_main_file_contents_system_only_centos
+- name: assert correct configuration in postgresql main configuration file using system only sources - CentOS
+  assert:
+    that: "\"listen_addresses = '{{ postgresql9_server_listen_address }}'\" in postgresql9_server_test_fact_postgresql_main_file_contents_system_only_centos.stdout"
+  when: ansible_distribution == "CentOS" and
+    (BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False')
+
+- name: get contents of main configuration file using system only sources - Ubuntu
+  command: "cat {{ postgresql9_server_configuration_base }}/{{ postgresql9_server_system_only_postgres_version }}/{{ postgresql9_server_configuration_directory }}/postgresql.conf"
+  changed_when: false
+  when: ansible_distribution == "Ubuntu" and
+    (BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False')
+  register: postgresql9_server_test_fact_postgresql_main_file_contents_system_only_ubuntu
+- name: assert correct configuration in postgresql main configuration file using system only sources - Ubuntu
+  assert:
+    that: "\"listen_addresses = '{{ postgresql9_server_listen_address }}'\" in postgresql9_server_test_fact_postgresql_main_file_contents_system_only_ubuntu.stdout"
+  when: ansible_distribution == "Ubuntu" and
+    (BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False')

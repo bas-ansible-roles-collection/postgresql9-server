@@ -1,5 +1,5 @@
 ---
-# Tests ...
+# Tests a PostgreSQL database can be created and used
 
 # Flush handlers
 #
@@ -19,6 +19,10 @@
 # These tests mirror individual tasks to ensure they execute correctly
 # E.g. creating a user, installing the right package or generating a valid configuration file
 
+- include: atomic/install.yml
+- include: atomic/configure.yml
+- include: atomic/configure-hba.yml
+- include: atomic/configure-firewall.yml
 - include: atomic/register-role.yml
 
 # Functionality tests
@@ -26,4 +30,6 @@
 # These tests ensure overall processes can be completed to give a valid result
 # E.g. checking a web-server serves a web-page ensures the relevant packages and configuration files work together
 
+- include: functionality/postgresql-roles.yml
+- include: functionality/postgresql-databases.yml
 - include: functionality/barc-manifest.yml

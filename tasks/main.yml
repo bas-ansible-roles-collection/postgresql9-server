@@ -1,5 +1,29 @@
 ---
-# ...
+# Installs and configures a PostgreSQL server instance
+
+# Load OS specific variables
+- name: load OS specific variables
+  include_vars: "{{ ansible_distribution }}.yml"
+
+- include: install.yml
+  tags:
+    - BARC_INSTALL
+    - BARC_INSTALL_PACKAGES
+
+- include: configure.yml
+  tags:
+    - BARC_CONFIGURE
+    - BARC_CONFIGURE_PACKAGE
+
+- include: configure-hba.yml
+  tags:
+    - BARC_CONFIGURE
+    - BARC_CONFIGURE_PACKAGE
+
+- include: configure-firewall.yml
+  tags:
+    - BARC_CONFIGURE
+    - BARC_CONFIGURE_FIREWALL
 
 - include: register-role.yml
   tags:

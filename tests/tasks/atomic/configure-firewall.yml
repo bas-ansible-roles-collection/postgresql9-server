@@ -1,0 +1,44 @@
+---
+# Checks modifications to the system firewall needed for PostgreSQL to function are set correctly
+
+- name: get contents of postgresql service definition file - CentOS/firewalld
+  command: "cat /etc/firewalld/services/postgresql.xml"
+  changed_when: false
+  when: ansible_distribution == "CentOS"
+  register: postgresql9_server_test_fact_postgresql_firewall_service_definition_file_contents_centos
+- name: assert postgresql port is set correctly in postgresql firewall service definition file - CentOS/firewalld
+  assert:
+    that: "'{{ postgresql9_server_firewall_port }}' in postgresql9_server_test_fact_postgresql_firewall_service_definition_file_contents_centos.stdout"
+  when: ansible_distribution == "CentOS"
+
+- name: get contents of postgresql firewall service definition file - Ubuntu/UFW
+  command: cat /etc/ufw/applications.d/postgresql
+  changed_when: false
+  when: ansible_distribution == "Ubuntu"
+  register: postgresql9_server_test_fact_postgresql_firewall_service_definition_file_contents_ubuntu
+- name: assert port is set correctly in postgresql firewall service definition file - Ubuntu/UFW
+  assert:
+    that:
+      - "'ports={{ postgresql9_server_firewall_port }}/tcp' in postgresql9_server_test_fact_postgresql_firewall_service_definition_file_contents_ubuntu.stdout"
+  when: ansible_distribution == "Ubuntu"
+
+# The trailing white-space in these assertions is required to prevent sub-string coincidence matches in firewalld
+- name: get permanent firewall rules for enabled services in the default firewall zone - CentOS/firewalld
+  command: firewall-cmd --list-services --permanent
+  changed_when: false
+  when: ansible_distribution == "CentOS"
+  register: postgresql9_server_test_fact_firewall_permanently_enabled_services
+- name: assert relevant postgresql firewall service is active and permanent - CentOS/firewalld
+  assert:
+    that: "'postgresql ' in postgresql9_server_test_fact_firewall_permanently_enabled_services.stdout + ' '"
+  when: ansible_distribution == "CentOS"
+
+- name: get firewall rules for enabled applications - Ubuntu/UFW
+  shell: sudo ufw status | tr -s ' ' | cut -d ' ' -f 1
+  changed_when: false
+  when: ansible_distribution == "Ubuntu"
+  register: postgresql9_server_test_fact_firewall_enabled_services
+- name: assert relevant postgresql firewall service is enabled - Ubuntu/UFW
+  assert:
+    that: "'postgresql-server\n' in postgresql9_server_test_fact_firewall_enabled_services.stdout"
+  when: ansible_distribution == "Ubuntu"

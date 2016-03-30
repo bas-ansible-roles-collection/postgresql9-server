@@ -1,0 +1,61 @@
+---
+# Installs PostgreSQL server and related packages
+
+# If using non-system sources (preferred)
+
+- name: install prerequisites for installing from non-system sources - CentOS
+  yum:
+                 pkg={{ item }}
+        update_cache=yes
+               state=present
+  with_items:
+    - https://download.postgresql.org/pub/repos/yum/9.5/redhat/rhel-7-x86_64/pgdg-centos95-9.5-2.noarch.rpm
+  when: BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True'
+
+- name: install postgresql server and related libraries from non-system sources - CentOS
+  yum:
+             pkg={{ item }}
+    update_cache=yes
+           state=present
+  with_items:
+    - postgresql95-server
+    - postgresql95-contrib
+    - python-psycopg2
+  when: BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True'
+
+- name: initiate database - CentOS
+  command: /usr/pgsql-9.5/bin/postgresql95-setup initdb
+    creates=/var/lib/pgsql/9.5/data/postgresql.conf
+  when: BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True'
+
+- name: start postgres server service and enable on boot - CentOS
+  service:
+       name=postgresql-9.5
+    enabled=yes
+      state=started
+  when: BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True'
+
+# If using system-sources only
+
+- name: install postgresql server and related libraries from system-only sources - CentOS
+  yum:
+             pkg={{ item }}
+    update_cache=yes
+           state=present
+  with_items:
+    - postgresql-server
+    - postgresql-contrib
+    - python-psycopg2
+  when: BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False'
+
+- name: initiate database - CentOS
+  command: postgresql-setup initdb
+    creates=/var/lib/pgsql/data/postgresql.conf
+  when: BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False'
+
+- name: start postgres server service and enable on boot - CentOS
+  service:
+       name=postgresql
+    enabled=yes
+      state=started
+  when: BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False'
