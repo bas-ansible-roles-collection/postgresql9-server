@@ -28,14 +28,14 @@
   - postgresql-contrib
   - python-psycopg2
   changed_when: False
-  when: BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'false'
+  when: BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False'
   register: postgresql9_server_test_fact_postgresql_package_is_installed_system_only_ubuntu
 - name: assert postgresql server and related packages are installed from system-only sources - Ubuntu
   assert:
     that:
       - "'install ok installed' in item.stdout"
   with_items: postgresql9_server_test_fact_postgresql_package_is_installed_system_only_ubuntu.results
-  when: BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'false'
+  when: BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False'
 
 # Applies to both non-system and system-only
 

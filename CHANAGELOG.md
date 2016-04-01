@@ -11,6 +11,7 @@ Remember: Make sure to update postgresql9_server_barc_role_version variable when
 ### Fixed
 
 * Minor README corrections
+* Logic for conditional tasks
 
 ## 0.1.0 - 30/03/2016
 
