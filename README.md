@@ -133,7 +133,7 @@ version you can expect:
 | ---------------- | ------------------------------------ | ------------------ | ----- |
 | Ubuntu           | Yes                                  | *9.5*              | -     |
 | Ubuntu           | No                                   | *9.3*              | -     |
-| CentOS           | Yes                                  | *9.5*             | -     |
+| CentOS           | Yes                                  | *9.5*              | -     |
 | CentOS           | No                                   | *9.2*              | -     |
 
 Because the exact version installed cannot be guaranteed by this role, you should be careful if using depending on this
