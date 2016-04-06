@@ -8,6 +8,24 @@ Remember: Make sure to update postgresql9_server_barc_role_version variable when
 
 ## [Unreleased][unreleased]
 
+## 0.2.0 - 06/04/2016
+
+### Added
+
+* Better typical usage in README
+* Note on how per-database tasks are required for enabling PostgreSQL extensions
+
+### Fixed
+
+* Minor README corrections
+* Logic for conditional tasks
+* Syntax highlighting in README
+
+### CHANGED
+
+* Local, non-socket, connections now use MD5 (i.e. password) authentication over the default 'ident' method to support
+the use of scripts connecting to a local PostgreSQL instance
+
 ## 0.1.0 - 30/03/2016
 
 ### Added
