@@ -8,6 +8,8 @@ Remember: Make sure to update postgresql9_server_barc_role_version variable when
 
 ## [Unreleased][unreleased]
 
+## 0.1.0 - 06/04/2016
+
 ### Added
 
 * Better typical usage in README
