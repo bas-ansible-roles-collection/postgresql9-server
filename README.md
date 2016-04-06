@@ -125,7 +125,7 @@ More information is available in the
 
 ### PostgreSQL version
 
-Depending on the operating system used, the version of PostgreSQL installed will different, though it will be at least
+Depending on the operating system used, the version of PostgreSQL installed will differ, though it will be at least
 PostgreSQL *9.2*, and not greater than the last PostgreSQL 9 series release. The table below hopes to clarify the
 version you can expect:
 
@@ -212,6 +212,10 @@ This role does not support adding additional PostgreSQL extensions, such as Post
 Where these extensions are desired, additional BARC roles may be provided if they are used commonly. Otherwise 
 extensions can be safely installed outside of this role.
 
+Note: Extensions are enabled on a per-database basis in PostgreSQL and **SHOULD NOT** be enabled within the default
+*postgres* database. As this role does not support creating databases, tasks to enable extensions will need to be made
+outside of this role.
+
 ### PostgreSQL roles
 
 PostgreSQL roles represent, users, groups, or combinations of users and groups.
@@ -225,7 +229,8 @@ will be connecting remotely.
 
 A user with super-user permissions can be added with a task such as:
 
-```yml
+```yaml
+---
 - name: create a privileged postgresql role linked to an operating system user
   postgresql_user:
                name="jeff"
@@ -237,7 +242,8 @@ A user with super-user permissions can be added with a task such as:
 
 A standard user can be added with a tasks such as:
 
-```yml
+```yaml
+---
 - name: create a non-privileged postgresql role for an application
   postgresql_user:
                name="app"
@@ -261,7 +267,9 @@ The default database template (i.e. *template0*) is safe to change outside this 
 
 A typical database can be added with a task such as:
 
-```yml
+```yaml
+---
+
 - name: create database for an application
   postgresql_db:
      name="app"
@@ -316,7 +324,6 @@ This may be traditional private networks protected using firewalls, or a private
   roles:
     - bas-ansible-roles-collection.postgresql9-server
   tasks:
-
     - name: create a non-privileged postgresql role for an application
       postgresql_user:
         name="app"
