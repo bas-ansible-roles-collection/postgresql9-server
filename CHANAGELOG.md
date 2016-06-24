@@ -9,11 +9,13 @@ Remember: Make sure to update postgresql9_server_barc_role_version variable when
 
 ### Added
 
+* Ansible 2 compatibility
 * Support for removing failed database initialisations on CentOS
 
 ### Fixed
 
 * Minor markdown formatting
+* Improved the robustness of dynamic inventories
 
 ## 0.2.0 - 06/04/2016
 
