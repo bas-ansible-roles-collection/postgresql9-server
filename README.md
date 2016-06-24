@@ -1,5 +1,4 @@
-
-# PostgreSQL 9 Server (postgresql9-server)
+# PostgreSQL 9 Server (`postgresql9-server`)
 
 Master: [![Build Status](https://semaphoreci.com/api/v1/bas-ansible-roles-collection/postgresql9-server/branches/master/badge.svg)](https://semaphoreci.com/bas-ansible-roles-collection/postgresql9-server)
 Develop: [![Build Status](https://semaphoreci.com/api/v1/bas-ansible-roles-collection/postgresql9-server/branches/develop/badge.svg)](https://semaphoreci.com/bas-ansible-roles-collection/postgresql9-server)
@@ -15,6 +14,7 @@ Installs and configures PostgreSQL server
 * Installs PostgreSQL server package from system-only sources
 * Installs PostgreSQL contrib package used for additional database extensions from system-only sources
 * Installs PostgreSQL Python bindings to allow Ansible to manage database resources (databases/users/etc.)
+* If necessary, initiates a PostgreSQL database cluster, or resetting failed clusters to allow a new cluster to be made
 * Optionally, configures the system firewall to allow access to PostgreSQL services, this is enabled by default
 * Configures main PostgreSQL configuration file, for allowing remote connections
 * Generates client authentication configuration file, for allowing remote connections
@@ -23,6 +23,16 @@ Installs and configures PostgreSQL server
 
 This role uses manual and automated testing to ensure its features work as advertised.
 See [here](tests/README.md) for more information.
+
+## Ansible compatibility
+
+* this role supports Ansible 1.8 or higher in the 1.x series
+* this role supports Ansible 2.x
+
+**Note:** Support for Ansible 1.x is deprecated by this role, future versions will support Ansible 2.x only.
+
+More information on Ansible compatibility is available in the
+[BARC General Documentation](https://antarctica.hackpad.com/BARC-Overview-and-Policies-SzcHzHvitkt#:h=Ansible-compatbility).
 
 ## Dependencies
 
