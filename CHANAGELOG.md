@@ -1,5 +1,4 @@
-
-# PostgreSQL 9 Server (postgresql9-server) - Change log
+# PostgreSQL 9 Server (`postgresql9-server`) - Change log
 
 All notable changes to this role will be documented in this file.
 This role adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
@@ -7,6 +6,10 @@ This role adheres to [Semantic Versioning](http://semver.org/spec/v2.0.0.html).
 Remember: Make sure to update postgresql9_server_barc_role_version variable when a new version is released.
 
 ## [Unreleased][unreleased]
+
+### Fixed
+
+* Minor markdown formatting
 
 ## 0.2.0 - 06/04/2016
 

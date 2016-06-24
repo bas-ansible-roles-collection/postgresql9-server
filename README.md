@@ -1,5 +1,4 @@
-
-# PostgreSQL 9 Server (postgresql9-server)
+# PostgreSQL 9 Server (`postgresql9-server`)
 
 Master: [![Build Status](https://semaphoreci.com/api/v1/bas-ansible-roles-collection/postgresql9-server/branches/master/badge.svg)](https://semaphoreci.com/bas-ansible-roles-collection/postgresql9-server)
 Develop: [![Build Status](https://semaphoreci.com/api/v1/bas-ansible-roles-collection/postgresql9-server/branches/develop/badge.svg)](https://semaphoreci.com/bas-ansible-roles-collection/postgresql9-server)
