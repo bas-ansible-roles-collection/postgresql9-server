@@ -23,6 +23,21 @@
     - python-psycopg2
   when: BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True'
 
+- name: check for evidence of failed database initiation
+  stat: path=/var/lib/pgsql/9.5/data/postgresql.conf
+  when: BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True'
+  register: postgresql9_server_fact_configuration_file_non_system
+
+- name: remove failed database initiation files if needed
+  file:
+    path="{{ item }}"
+    state=absent
+  with_items:
+    - /var/lib/pgsql/9.5/data
+    - /var/lib/pgsql/9.5/initdb.log
+  when: (BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True') and
+    (postgresql9_server_fact_configuration_file_non_system.stat.exists == false)
+
 - name: initiate database - CentOS
   command: /usr/pgsql-9.5/bin/postgresql95-setup initdb
     creates=/var/lib/pgsql/9.5/data/postgresql.conf
@@ -47,6 +62,21 @@
     - postgresql-contrib
     - python-psycopg2
   when: BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False'
+
+- name: check for evidence of failed database initiation
+  stat: path=/var/lib/pgsql/data/postgresql.conf
+  when: BARC_use_non_system_package_sources == true or BARC_use_non_system_package_sources == 'True'
+  register: postgresql9_server_fact_configuration_file_system_only
+
+- name: remove failed database initiation files if needed
+  file:
+    path="{{ item }}"
+    state=absent
+  with_items:
+    - /var/lib/pgsql/data
+    - /var/lib/pgsql/initdb.log
+  when: (BARC_use_non_system_package_sources == false or BARC_use_non_system_package_sources == 'False') and
+    (postgresql9_server_fact_configuration_file_system_only.stat.exists == false)
 
 - name: initiate database - CentOS
   command: postgresql-setup initdb

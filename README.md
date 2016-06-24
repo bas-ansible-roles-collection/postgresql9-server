@@ -14,6 +14,7 @@ Installs and configures PostgreSQL server
 * Installs PostgreSQL server package from system-only sources
 * Installs PostgreSQL contrib package used for additional database extensions from system-only sources
 * Installs PostgreSQL Python bindings to allow Ansible to manage database resources (databases/users/etc.)
+* If necessary, initiates a PostgreSQL database cluster, or resetting failed clusters to allow a new cluster to be made
 * Optionally, configures the system firewall to allow access to PostgreSQL services, this is enabled by default
 * Configures main PostgreSQL configuration file, for allowing remote connections
 * Generates client authentication configuration file, for allowing remote connections

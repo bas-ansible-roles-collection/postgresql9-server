@@ -7,6 +7,10 @@ Remember: Make sure to update postgresql9_server_barc_role_version variable when
 
 ## [Unreleased][unreleased]
 
+### Added
+
+* Support for removing failed database initialisations on CentOS
+
 ### Fixed
 
 * Minor markdown formatting
