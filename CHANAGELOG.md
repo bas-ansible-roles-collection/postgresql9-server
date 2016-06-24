@@ -7,6 +7,8 @@ Remember: Make sure to update postgresql9_server_barc_role_version variable when
 
 ## [Unreleased][unreleased]
 
+## 0.2.1 - 24/06/2016
+
 ### Added
 
 * Ansible 2 compatibility
